@@ -7,6 +7,14 @@ using namespace std;
 const int screenHeight = 1000;
 const int screenWidth = 1200;
 
+struct player
+{
+	int x;
+	int y;
+	int width=100;
+	int height=100;
+};
+
 int main()
 {
 
@@ -21,6 +29,41 @@ Texture2D bg2 = LoadTexture("C:\\Users\\rania\\Downloads\\bg2.png");
 bg2.width = screenWidth;
 bg2.height = screenHeight;
 Vector2 bg2pos = { screenWidth,0 };
+
+	player p;
+	p.x =  (player1.width / 2);
+	p.y = screenHeight - player1.height;
+
+	int bgspeed = 2;
+
+	SetTargetFPS(60);
+
+	while (!WindowShouldClose())
+	{
+		bg1pos.x -= bgspeed;
+		bg2pos.x -= bgspeed;
+
+		if (bg1pos.x + bg1.width <= 0)
+		{
+			bg1pos.x = screenWidth;
+		}
+		if (bg2pos.x + bg2.width <= 0)
+		{
+			bg2pos.x = screenWidth;
+		}
+
+		
+
+		BeginDrawing();
+		ClearBackground(RAYWHITE);
+
+		DrawTexture(bg1, bg1pos.x, bg1pos.y, WHITE);
+		DrawTexture(bg2, bg2pos.x, bg2pos.y, WHITE);
+		DrawTexture(player1, p.x, p.y, WHITE);
+
+		EndDrawing();
+	}
+}
 
 	return 0;
 }
