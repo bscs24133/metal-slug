@@ -4,10 +4,23 @@
 using namespace std;
 
 
-const int screenHeight = 800;
+const int screenHeight = 1000;
 const int screenWidth = 1200;
+
 int main()
 {
+
+ InitWindow(screenWidth, screenHeight, "METAL SLUG Game");
+  
+Texture2D bg1 = LoadTexture("C:\\Users\\rania\\Downloads\\bg1.png");
+bg1.width = screenWidth;
+bg1.height = screenHeight;
+Vector2 bg1pos = { 0,0 };
+
+Texture2D bg2 = LoadTexture("C:\\Users\\rania\\Downloads\\bg2.png");
+bg2.width = screenWidth;
+bg2.height = screenHeight;
+Vector2 bg2pos = { screenWidth,0 };
 
 	return 0;
 }
