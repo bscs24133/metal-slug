@@ -1,0 +1,181 @@
+#include <iostream>
+#include "raylib.h"
+
+
+using namespace std;
+
+struct player
+{
+	int x;
+	int y;
+	int width = 100;
+	int height = 100;
+};
+struct enemy_1
+{
+	int x;
+	int y;
+	int width = 100;
+	int height = 100;
+};
+
+struct bullet
+{
+	int x;
+	int y;
+};
+
+
+const int screenHeight = 600;
+const int screenWidth = 1200;
+
+int main()
+{
+	InitWindow(screenWidth, screenHeight, "Metal Slug Game");
+
+	Texture2D bg1 = LoadTexture("background 1.png");
+	bg1.width = screenWidth;
+	bg1.height = screenHeight;
+	Vector2 bg1pos = { 0,0 };
+
+	Texture2D bg2 = LoadTexture("background 2.png");
+	bg2.width = screenWidth;
+	bg2.height = screenHeight;
+	Vector2 bg2pos = { screenWidth,0 };
+
+	SetTargetFPS (60);
+
+	Texture2D player1 = LoadTexture("PLAYER 1.png");
+	Texture2D enemy1 = LoadTexture("enemy 1.png");
+
+	Texture2D bullet1 = LoadTexture("bullet.png");
+
+	bullet1.width = 100;
+	bullet1.height = 100;
+
+	enemy1.width = 200;
+	enemy1.height = 200;
+
+	player1.width = 200;
+	player1.height = 200;
+
+	bullet b;
+	b.x = (player1.width + bullet1.width / 2);
+	b.y = screenHeight - player1.height / 2;
+
+	player p;
+	p.x = (player1.width / 2);
+	p.y = screenHeight - player1.height;
+
+	enemy_1 e1;
+	e1.x = (screenWidth - enemy1.width / 2);
+	e1.y = screenHeight - enemy1.height;
+
+	int score = 0;
+	int bgspeed = 2;
+	int enemyspeed = 1;
+
+	SetTargetFPS(60);
+
+
+	while (!WindowShouldClose())
+	{
+		bg1pos.x -= bgspeed;
+		bg2pos.x -= bgspeed;
+
+		if (bg1pos.x + bg1.width <= 0)
+		{
+			bg1pos.x = screenWidth;
+		}
+		if (bg2pos.x + bg2.width <= 0)
+		{
+			bg2pos.x = screenWidth;
+		}
+
+		e1.x -= enemyspeed;
+		e1.x -= enemyspeed;
+
+
+		if (e1.x +e1.width <= 0)
+		{
+			e1.x = screenWidth;
+		}
+		
+		if (IsKeyDown(KEY_LEFT))
+		{
+			p.x -= 5;
+		}
+		if (IsKeyDown(KEY_RIGHT))
+		{
+			p.x += 5;
+		}
+
+		if (IsKeyPressed(KEY_UP))
+		{
+			p.y -= 5;
+			p.y = screenHeight - player1.height;
+
+		}
+
+		if (p.x < 0)
+		{
+			p.x = 0;
+		}
+		if (p.x + player1.width > screenWidth)
+		{
+			p.x = screenWidth - player1.width;
+		}
+
+		Rectangle enemyrec = { e1.x , e1.y ,enemy1.width ,enemy1.height };
+
+		Rectangle bulletrec = { b.x , b.y ,bullet1.width ,bullet1.height };
+		Rectangle playerrec = { p.x , p.y , player1.width , player1.height };
+
+		Vector2 bulletposition = { b.x , b.y };
+		if (CheckCollisionRecs(enemyrec, bulletrec))
+		{
+			e1.x = screenWidth;
+			b.x = (player1.width + bullet1.width / 2);
+			score++;
+		}
+		if (CheckCollisionRecs(playerrec, enemyrec))
+		{
+			e1.x = screenWidth;
+			b.x = (player1.width + bullet1.width / 2);
+			score--;
+			/*if (score < 0)
+			{
+
+			}*/
+		}
+
+		BeginDrawing();
+		ClearBackground(RAYWHITE);
+
+		DrawTexture(bg1, bg1pos.x, bg1pos.y, WHITE);
+		DrawTexture(bg2, bg2pos.x, bg2pos.y, WHITE);
+		DrawTexture(player1, p.x, p.y, WHITE);
+		DrawTexture(enemy1, e1.x, e1.y, WHITE);
+		if (IsKeyDown(KEY_SPACE))
+		{
+			DrawTexture(bullet1, b.x, b.y, WHITE);
+			b.x += 10;
+
+		}
+		if (b.x == screenWidth)
+		{
+			b.x = (player1.width + bullet1.width/ 2);
+		}
+
+		DrawText(TextFormat("Score : %d", score), 10, 10, 50, YELLOW);
+
+		EndDrawing();
+
+	}
+	UnloadTexture(bg1);
+
+	UnloadTexture(bg2);
+	CloseWindow();
+
+	return 0;
+}
