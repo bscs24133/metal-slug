@@ -1,0 +1,36 @@
+//jump
+
+
+		int isjump = -20;
+		int gravity = 1;
+		int ground = screenHeight - player1.height;
+
+		if (IsKeyPressed(KEY_UP))
+		{
+			p.velocity = isjump;
+			p.jump = true;
+		}
+
+		if (p.jump)
+		{
+			p.velocity += gravity;
+			p.y += p.velocity;
+
+			if (p.y >= ground)
+			{
+				p.y = ground;
+				p.jump = false;
+				p.velocity = 0;
+			}
+		}
+		
+		
+
+		if (p.x < 0)
+		{
+			p.x = 0;
+		}
+		if (p.x + player1.width > screenWidth)
+		{
+			p.x = screenWidth - player1.width;
+		}
