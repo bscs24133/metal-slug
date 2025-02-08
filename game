@@ -34,6 +34,12 @@ Vector2 bg2pos = { screenWidth,0 };
 	p.x =  (player1.width / 2);
 	p.y = screenHeight - player1.height;
 
+	e1.x = (screenWidth - enemy1.width / 2) + 50;
+	e1.y = screenHeight - enemy1.height;
+   
+	e2.x = (screenWidth - enemy2.width / 2) + 100;
+	e2.y = screenHeight - enemy2.height;
+   
 	int bgspeed = 2;
 
 	SetTargetFPS(60);
@@ -52,6 +58,55 @@ Vector2 bg2pos = { screenWidth,0 };
 			bg2pos.x = screenWidth;
 		}
 
+
+		//player bullets 
+		if (IsKeyPressed(KEY_SPACE))
+		{
+			for (int i = 0; i < B; i++)
+			{
+				if (!bullets[i].isactive)
+				{
+					bullets[i].x = p.x + player1.width / 2;
+					bullets[i].y = p.y + 40;
+					bullets[i].isactive = true;
+					break;
+				}
+			}
+		}
+	   
+		for (int i = 0; i < B; i++)
+		{
+			if (bullets[i].isactive)
+			{
+				bullets[i].x += 10;
+				if (bullets[i].x > screenWidth) bullets[i].isactive = false;
+			}
+		}
+	   
+		for (int i = 0; i < B; i++)
+		{
+			if (bullets[i].isactive)
+			{
+				Rectangle bulletrec = { bullets[i].x , bullets[i].y ,bullet1.width ,bullet1.height };
+				Rectangle enemyrec = { e1.x , e1.y ,enemy1.width ,enemy1.height };
+				Rectangle enemy2rec = { e2.x , e2.y ,enemy2.width ,enemy2.height };
+				
+	   
+				if (CheckCollisionRecs(enemyrec, bulletrec)) 
+				{ 
+					bullets[i].isactive = false; 
+					e1.x = screenWidth;
+					score++; 
+				}
+				if (CheckCollisionRecs(enemy2rec, bulletrec)) 
+				{ 
+					bullets[i].isactive = false;
+				e2.x = screenWidth;
+				score++;
+				}
+				
+			}
+		}
 		
 
 		BeginDrawing();
