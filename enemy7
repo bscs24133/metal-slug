@@ -1,0 +1,15 @@
+ enemy7 = LoadTexture("enemy7.png");
+ enemy7.width = 200;
+ enemy7.height = 200;
+
+
+ e7.x = (screenWidth - enemy7.width / 2);
+ e7.y = screenHeight / 2;
+
+
+  if (e7.x + e7.width <= 0) 
+      e7.x = screenWidth;
+
+ Rectangle enemy7rec = { e7.x , e7.y ,enemy7.width ,enemy7.height };
+
+ UnloadTexture(enemy7);
