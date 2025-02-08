@@ -1,0 +1,10 @@
+Sound sound, sound1;
+ InitAudioDevice();
+
+ sound = LoadSound("metal-slug-sound.wav");
+ sound1 = LoadSound("gun-shots.wav");
+
+ UnloadSound(sound);
+ UnloadSound(sound1);
+
+ CloseAudioDevice();
