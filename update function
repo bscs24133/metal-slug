@@ -1,0 +1,63 @@
+oid UpdateGame()
+{
+    bg1pos.x -= bgspeed;
+    bg2pos.x -= bgspeed;
+
+    if (bg1pos.x + bg1.width <= 0) bg1pos.x = screenWidth;
+    if (bg2pos.x + bg2.width <= 0) bg2pos.x = screenWidth;
+
+    e1.x -= enemyspeed;
+    e2.x -= enemyspeed;
+    e3.x -= enemyspeed;
+    e4.x -= enemyspeed;
+    e5.x -= enemyspeed;
+    e6.x -= enemyspeed;
+    e7.x -= enemyspeed;
+    e8.x -= enemyspeed;
+    plane1.x -= enemyspeed;
+
+    e6.y += 2;
+    e3.y += 2;
+    
+    if (e3.y == (screenHeight - 300)) e3.y = 0;
+    if (e3.x + e3.width <= 0) e3.x = screenWidth;
+    if (e2.x + e2.width <= 0) e2.x = screenWidth;
+    if (e1.x + e1.width <= 0) e1.x = screenWidth;
+    if (e6.y == (screenHeight - 100)) e6.y = screenHeight/2;
+    if (e6.x + e6.width <= 0) e6.x = screenWidth;
+    if (e7.x + e7.width <= 0) e7.x = screenWidth;
+    if (e8.x + e8.width <= 0) e8.x = screenWidth;
+    if (plane1.x + plane.width <= 0) plane1.x = screenWidth;
+
+
+    if (IsKeyDown(KEY_LEFT)) p.x -= 5;
+    if (IsKeyDown(KEY_RIGHT)) p.x += 5;
+    if (IsKeyPressed(KEY_UP)) p.y -= 5;
+
+    if (p.x < 0) p.x = 0;
+    if (p.x + player1.width > screenWidth) p.x = screenWidth - player1.width;
+
+    if (IsKeyPressed(KEY_UP))
+    {
+        p.velocity = jump;
+        p.isjump = true;
+    }
+
+    if (p.isjump)
+    {
+        p.velocity += gravity;
+        p.y += p.velocity;
+
+        if (p.y >= ground)
+        {
+            p.y = ground;
+            p.isjump = false;
+            p.velocity = 0;
+        }
+        if (p.y <= 0)
+        {
+            p.y += 10;
+        }
+    }
+   
+}
