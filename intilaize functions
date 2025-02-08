@@ -1,0 +1,167 @@
+void InitializeGame()
+{
+    InitWindow(screenWidth, screenHeight, "Metal Slug Game");
+    InitAudioDevice();
+
+    sound = LoadSound("C:\\Users\\rania\\Downloads\\metal_slug_sound.wav");
+    sound1 = LoadSound("C:\\Users\\rania\\Downloads\\gun2.wav");
+    gameover = LoadSound("C:\\Users\\rania\\Downloads\\game-over-160612.wav");
+    winner = LoadSound("C:\\Users\\rania\\Downloads\\club-music-loop-74178.wav");
+
+    myfont = LoadFont("C:\\Users\\rania\\Downloads\\KumarOne-Regular.ttf");
+
+    bg1 = LoadTexture("C:\\Users\\rania\\Downloads\\background1p.png");
+    bg1.width = screenWidth;
+    bg1.height = screenHeight;
+    bg1pos = { 0,0 };
+
+    bg2 = LoadTexture("C:\\Users\\rania\\Downloads\\backgrpundflip1.png");
+    bg2.width = screenWidth;
+    bg2.height = screenHeight;
+    bg2pos = { screenWidth,0 };
+
+    logo = LoadTexture("C:\\Users\\rania\\Downloads\\metallogo.png");
+    logo.width = screenWidth;
+    logo.height = screenHeight - 200;
+
+    black = LoadTexture("C:\\Users\\rania\\Downloads\\logoback1.png");
+    black.width = screenWidth;
+    black.height = screenHeight;
+
+    level2 = LoadTexture("C:\\Users\\rania\\Downloads\\levels.png");
+    level2.width = screenWidth;
+    level2.height = screenHeight;
+
+    level3 = LoadTexture("C:\\Users\\rania\\Downloads\\levels.png");
+    level3.width = screenWidth;
+    level3.height = screenHeight;
+
+    level4 = LoadTexture("C:\\Users\\rania\\Downloads\\levels.png");
+    level4.width = screenWidth;
+    level4.height = screenHeight;
+
+    level5 = LoadTexture("C:\\Users\\rania\\Downloads\\levels.png");
+    level5.width = screenWidth;
+    level5.height = screenHeight;
+
+
+    penter = LoadTexture("C:\\Users\\rania\\Downloads\\enter-removebg-preview.png");
+    penter.width = screenWidth;
+    penter.height = screenHeight;
+
+    player1 = LoadTexture("C:\\Users\\rania\\Downloads\\player.png");
+    player1.width = 150;
+    player1.height = 150;
+
+    player_up = LoadTexture("C:\\Users\\rania\\Downloads\\playergunup-removebg-preview.png");
+    player_up.width = 250;
+    player_up.height = 150;
+
+    enemy1 = LoadTexture("C:\\Users\\rania\\Downloads\\enemy1-removebg-preview.png");
+    enemy1.width = 200;
+    enemy1.height = 200;
+
+    enemy2 = LoadTexture("C:\\Users\\rania\\Downloads\\enemy2-removebg-preview.png");
+    enemy2.width = 150;
+    enemy2.height = 150;
+
+    enemy3 = LoadTexture("C:\\Users\\rania\\Downloads\\enemy3-removebg-preview.png");
+    enemy3.width = 150;
+    enemy3.height = 150;
+
+    enemy4 = LoadTexture("C:\\Users\\rania\\Downloads\\enemy4c-removebg-preview.png");
+    enemy4.width = 200;
+    enemy4.height = 200;
+
+    enemy5 = LoadTexture("C:\\Users\\rania\\Downloads\\enemy5-removebg-preview.png");
+    enemy5.width = 150;
+    enemy5.height = 150;
+
+    enemy6 = LoadTexture("C:\\Users\\rania\\Downloads\\enemy6.png");
+    enemy6.width = 100;
+    enemy6.height = 100;
+
+    enemy7 = LoadTexture("C:\\Users\\rania\\Downloads\\cactus-removebg-preview");
+    enemy7.width = 200;
+    enemy7.height = 200;
+
+    enemy8 = LoadTexture("C:\\Users\\rania\\Downloads\\enemy8.png");
+    enemy8.width = 100;
+    enemy8.height = 100;
+
+    bullet1 = LoadTexture("C:\\Users\\rania\\Downloads\\bullet1-removebg-preview.png");
+    bullet1.width = 80;
+    bullet1.height = 80;
+
+    bullet2 = LoadTexture("C:\\Users\\rania\\Downloads\\bullet2.png");
+    bullet2.width = 100;
+    bullet2.height = 100;
+
+    bullet3 = LoadTexture("C:\\Users\\rania\\Downloads\\bullet3flip.png");
+    bullet3.width = 50;
+    bullet3.height = 20;
+
+    bullet4 = LoadTexture("C:\\Users\\rania\\Downloads\\enemy4_arrow-removebg-preview.png");
+    bullet4.width = 80;
+    bullet4.height = 150;
+
+    bullet5 = LoadTexture("C:\\Users\\rania\\Downloads\\neon_bullet-removebg-preview.png");
+    bullet5.width = 50;
+    bullet5.height = 100;
+
+    bomb = LoadTexture("C:\\Users\\rania\\Downloads\\bomb.png");
+    bomb.width = 50;
+    bomb.height = 50;
+
+    honey = LoadTexture("C:\\Users\\rania\\Downloads\\honeydrop.png");
+    honey.width = 50;
+    honey.height = 50;
+
+    black2 = LoadTexture("C:\\Users\\rania\\Downloads\\black1.png");
+    black2.width = screenWidth;
+    black2.height = screenHeight;
+
+    win = LoadTexture("C:\\Users\\rania\\Downloads\\win3-removebg-preview.png");
+    win.width = screenWidth;
+    win.height = screenHeight;
+
+    over = LoadTexture("C:\\Users\\rania\\Downloads\\over1.png");
+    over.width = screenWidth;
+    over.height = screenHeight;
+
+    plane = LoadTexture("C:\\Users\\rania\\Downloads\\plane.png");
+    plane.width = 200;
+    plane.height = 100;
+    
+    p.x = (player1.width / 2);
+    p.y = screenHeight - player1.height;
+
+    e1.x = (screenWidth - enemy1.width / 2) + 50;
+    e1.y = screenHeight - enemy1.height;
+
+    e2.x = e1.x + 400;
+    e2.y = screenHeight - enemy2.height;
+
+    e3.x = (screenWidth - enemy3.width / 2) + 150;
+    e3.y = 0;
+
+    e4.x = e2.x + 800;
+    e4.y = screenHeight - enemy4.height;
+
+    e5.x = e4.x + 1200;
+    e5.y = screenHeight - enemy4.height;
+
+    e6.x = (screenWidth - enemy6.width / 2);
+    e6.y = screenHeight/2;
+
+    e7.x = (screenWidth - enemy7.width / 2);
+    e7.y = screenHeight / 2;
+
+    e8.x = (screenWidth - enemy8.width / 2);
+    e8.y = screenHeight / 2;
+
+    plane1.x = (screenWidth - plane1.width / 2) + 150;
+    plane1.y = 100;
+
+    SetTargetFPS(60);
+}
