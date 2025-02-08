@@ -1,0 +1,10 @@
+if (CheckCollisionRecs(player_rec, enemy3rec))
+		{
+			health--;
+			e3.x = (screenWidth - enemy3.width / 2) + 10;
+		}
+		if (CheckCollisionRecs(player_rec, enemy4rec))
+		{
+			health--;
+			e4.x = (screenWidth - enemy4.width / 2) + 10;
+		}
