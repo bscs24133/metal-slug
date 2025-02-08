@@ -1,0 +1,118 @@
+logo = LoadTexture("C:\\Users\\rania\\Downloads\\metallogo.png");
+logo.width = screenWidth;
+logo.height = screenHeight - 200;
+
+black = LoadTexture("C:\\Users\\rania\\Downloads\\logoback1.png");
+black.width = screenWidth;
+black.height = screenHeight;
+
+ penter = LoadTexture("C:\\Users\\rania\\Downloads\\enter-removebg-preview.png");
+ penter.width = screenWidth;
+ penter.height = screenHeight;
+
+ black2 = LoadTexture("C:\\Users\\rania\\Downloads\\black1.png");
+ black2.width = screenWidth;
+ black2.height = screenHeight;
+
+ win = LoadTexture("C:\\Users\\rania\\Downloads\\win3-removebg-preview.png");
+ win.width = screenWidth;
+ win.height = screenHeight;
+
+ over = LoadTexture("C:\\Users\\rania\\Downloads\\over1.png");
+ over.width = screenWidth;
+ over.height = screenHeight;
+
+ sound = LoadSound("C:\\Users\\rania\\Downloads\\metal_slug_sound.wav");
+sound1 = LoadSound("C:\\Users\\rania\\Downloads\\gun2.wav");
+gameover = LoadSound("C:\\Users\\rania\\Downloads\\game-over-160612.wav");
+winner = LoadSound("C:\\Users\\rania\\Downloads\\club-music-loop-74178.wav");
+
+ Vector2 text = { 0,0 }, text1 = { 200,0 }, text2 = { 500,0 };
+DrawTextEx(myfont, TextFormat("Score : %d", score), text, 50, 2, DARKGRAY);
+DrawTextEx(myfont, TextFormat("Health : %d", health), text1, 50, 2, DARKGREEN);
+
+if (level == 2)
+{
+    DrawTextEx(myfont, "Level 2", text2, 50, 2, RED);
+    DrawTexture(level2, 0, 0, WHITE);
+}
+if (level == 3)
+{
+    DrawTextEx(myfont, "Level 3", text2, 50, 2, RED);
+    DrawTexture(level3, 0, 0, WHITE);
+}
+if (level == 4)
+{
+    DrawTextEx(myfont, "Level 4", text2, 50, 2, RED);
+    DrawTexture(level4, 0, 0, WHITE);
+}
+if (level == 5)
+{
+    DrawTextEx(myfont, "Level 5", text2, 50, 2, RED);
+    DrawTexture(level5, 0, 0, WHITE);
+}
+
+if (score >= 100)
+{
+    DrawTexture(black2, 0, 0, WHITE);
+    DrawTexture(win, 0, 0, WHITE);
+}
+if (health <= 0)
+{
+    DrawTexture(over, 0, 0, WHITE);
+}
+
+DrawTexture(black, 0, 0, WHITE);
+DrawTexture(penter, 0, 300, WHITE);
+DrawTexture(logo, 0, 0, WHITE);
+
+if (IsKeyPressed(KEY_ENTER))
+{
+    logo.height = 0;
+    logo.width = 0;
+    penter.height = 0;
+    penter.width = 0;
+    black.height = 0;
+    black.width = 0;
+    PlaySound(sound);
+
+    if (level == 2)
+    {
+        level2.height = 0;
+        level2.width = 0;
+        enemyspeed = 2;
+    }
+    if (level == 3)
+    {
+        level3.height = 0;
+        level3.width = 0; 
+        enemyspeed = 3;
+    }
+    if (level == 4)
+    {
+        level4.height = 0;
+        level4.width = 0;
+        enemyspeed = 4;
+    }
+    if (level == 5)
+    {
+        level5.height = 0;
+        level5.width = 0;
+        enemyspeed = 5;
+    }
+
+}
+if (IsKeyPressed(KEY_SPACE)) PlaySound(sound1);
+
+if (IsKeyPressed(KEY_RIGHT_SHIFT))
+{
+    if (health <= 0)
+    {
+        PlaySound(gameover);
+    }
+    if (score >= 100)
+    {
+        PlaySound(winner);
+    }
+
+}
