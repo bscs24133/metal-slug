@@ -1,0 +1,60 @@
+void HandleLevels()
+{
+    if (score == 20 && flag==1)
+    {
+        level = 2;
+        score = 0;
+        flag = 2;
+    }
+    else if (score > 40 && score < 60 && flag==2)
+    {
+        level = 3;
+        score = 0;
+        flag = 3;
+    }
+    else if (score >= 60 && score < 80 && flag==3)
+    {
+        level = 4;
+        score = 0;
+        flag = 4;
+    }
+    else if (score >= 80 && score < 100 && flag==4)
+    {
+        level = 5;
+        score = 0;
+        flag = 5;
+    }
+}
+
+void Cleanup()
+{
+    UnloadTexture(bg1);
+    UnloadTexture(bg2);
+    UnloadTexture(logo);
+    UnloadTexture(black);
+    UnloadTexture(black2);
+    UnloadTexture(player1);
+    UnloadTexture(enemy1);
+    UnloadTexture(enemy2);
+    UnloadTexture(enemy3);
+    UnloadTexture(enemy4);
+    UnloadTexture(enemy5);
+    UnloadTexture(enemy6);
+    UnloadTexture(enemy7);
+    UnloadTexture(enemy8);
+    UnloadTexture(bullet1);
+    UnloadTexture(bullet2);
+    UnloadTexture(bullet3);
+    UnloadTexture(bullet4);
+    UnloadTexture(bullet5);
+
+    UnloadSound(sound);
+    UnloadSound(sound1);
+    UnloadSound(winner);
+    UnloadSound(gameover);
+
+
+
+    CloseAudioDevice();
+    CloseWindow();
+}
