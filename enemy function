@@ -1,0 +1,266 @@
+void HandleEnemies()
+{
+    if (e1.x < screenWidth - enemy1.width)
+    {
+        bullet2timer++;
+        if (bullet2timer >= bulletframe)
+        {
+            for (int i = 0; i < B; i++)
+            {
+                if (!bullets2[i].isactive)
+                {
+                    bullets2[i].x = e1.x;
+                    bullets2[i].y = e1.y + 60;
+                    bullets2[i].isactive = true;
+                    bullet2timer = 0;
+                    break;
+                }
+            }
+        }
+    }
+
+    for (int i = 0; i < B; i++)
+    {
+        if (bullets2[i].isactive)
+        {
+            bullets2[i].x -= 10;
+            if (bullets2[i].x < 0) bullets2[i].isactive = false;
+        }
+    }
+
+    for (int i = 0; i < B; i++)
+    {
+        if (bullets2[i].isactive)
+        {
+            Rectangle bullet2rec = { bullets2[i].x , bullets2[i].y ,bullet2.width ,bullet2.height };
+            Rectangle player_rec = { p.x , p.y ,player1.width ,player1.height };
+            if (CheckCollisionRecs(player_rec, bullet2rec))
+            {
+                bullets2[i].isactive = false;
+                health--;
+            }
+        }
+    }
+
+    if (e2.x < screenWidth - enemy2.width)
+    {
+        bullet2timer++;
+        if (bullet2timer >= bulletframe)
+        {
+            for (int i = 0; i < B; i++)
+            {
+                if (!bullets3[i].isactive)
+                {
+                    bullets3[i].x = e2.x;
+                    bullets3[i].y = e2.y + 40;
+                    bullets3[i].isactive = true;
+                    bullet2timer = 0;
+                    break;
+                }
+            }
+        }
+    }
+
+    for (int i = 0; i < B; i++)
+    {
+        if (bullets3[i].isactive)
+        {
+            bullets3[i].x -= 10;
+            if (bullets3[i].x < 0) bullets3[i].isactive = false;
+        }
+    }
+
+    for (int i = 0; i < B; i++)
+    {
+        if (bullets3[i].isactive)
+        {
+            Rectangle bullet3rec = { bullets3[i].x , bullets3[i].y ,bullet3.width ,bullet3.height };
+            Rectangle player_rec = { p.x , p.y ,player1.width ,player1.height };
+            if (CheckCollisionRecs(player_rec, bullet3rec))
+            { 
+                bullets3[i].isactive = false;
+                health--;
+            }
+        }
+    }
+
+    if (level >= 2)
+    {
+        if (e4.x < screenWidth - enemy4.width)
+        {
+            bullet2timer++;
+            if (bullet2timer >= bulletframe)
+            {
+                for (int i = 0; i < B; i++)
+                {
+                    if (!bullets4[i].isactive)
+                    {
+                        bullets4[i].x = e4.x;
+                        bullets4[i].y = e4.y + 20;
+                        bullets4[i].isactive = true;
+                        bullet2timer = 0;
+                        break;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < B; i++)
+        {
+            if (bullets4[i].isactive)
+            {
+                bullets4[i].x -= 10;
+                if (bullets4[i].x < 0) bullets4[i].isactive = false;
+            }
+        }
+
+        
+        for (int i = 0; i < B; i++)
+        {
+            if (bullets4[i].isactive)
+            {
+                Rectangle bullet4rec = { bullets4[i].x , bullets4[i].y ,bullet4.width ,bullet4.height };
+                Rectangle player_rec = { p.x , p.y ,player1.width ,player1.height };
+                if (CheckCollisionRecs(player_rec, bullet4rec)) { bullets4[i].isactive = false; health--; }
+            }
+        }
+        if (e3.x < screenWidth - enemy3.width)
+        {
+            bullet2timer++;
+            if (bullet2timer >= bulletframe)
+            {
+                for (int i = 0; i < B; i++)
+                {
+                    if (!bomb1[i].isactive)
+                    {
+                        bomb1[i].x = e3.x;
+                        bomb1[i].y = e3.y + 40;
+                        bomb1[i].isactive = true;
+                        bullet2timer = 0;
+                        break;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < B; i++)
+        {
+            if (bomb1[i].isactive)
+            {
+                bomb1[i].y += 10;
+                if (bomb1[i].y < 0) bomb1[i].isactive = false;
+            }
+        }
+
+        for (int i = 0; i < B; i++)
+        {
+            if (bomb1[i].isactive)
+            {
+                Rectangle bombrec = { bomb1[i].x , bomb1[i].y ,bomb.width ,bomb.height };
+                Rectangle player_rec = { p.x , p.y ,player1.width ,player1.height };
+                if (CheckCollisionRecs(player_rec, bombrec))
+                { 
+                    bomb1[i].isactive = false;
+                    health--;
+                }
+            }
+        }
+       
+    }
+
+    if (level >= 4)
+    {
+        if (e6.x < screenWidth - enemy6.width)
+        {
+            bullet2timer++;
+            if (bullet2timer >= bulletframe)
+            {
+                for (int i = 0; i < B; i++)
+                {
+                    if (!honeyb[i].isactive)
+                    {
+                        honeyb[i].x = e6.x;
+                        honeyb[i].y = e6.y + 40;
+                        honeyb[i].isactive = true;
+                        bullet2timer = 0;
+                        break;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < B; i++)
+        {
+            if (honeyb[i].isactive)
+            {
+                honeyb[i].y += 5;
+                if (honeyb[i].y < 0)
+                {
+                    honeyb[i].isactive = false;
+                }
+            }
+        }
+
+        for (int i = 0; i < B; i++)
+        {
+            if (honeyb[i].isactive)
+            {
+                Rectangle honeyrec = { honeyb[i].x , honeyb[i].y ,honey.width ,honey.height };
+                Rectangle player_rec = { p.x , p.y ,player1.width ,player1.height };
+                if (CheckCollisionRecs(player_rec, honeyrec))
+                {
+                    honeyb[i].isactive = false;
+                    health--;
+                }
+            }
+        }
+    }
+
+    if (level == 5)
+    {
+        if (e8.x < screenWidth - enemy8.width)
+        {
+            bullet2timer++;
+            if (bullet2timer >= bulletframe)
+            {
+                for (int i = 0; i < B; i++)
+                {
+                    if (!bullets5[i].isactive)
+                    {
+                        bullets5[i].x = e8.x;
+                        bullets5[i].y = e8.y + 40;
+                        bullets5[i].isactive = true;
+                        bullet2timer = 0;
+                        break;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < B; i++)
+        {
+            if (bullets5[i].isactive)
+            {
+                bullets5[i].y += 5;
+                if (bullets5[i].y < 0)
+                {
+                    bullets5[i].isactive = false;
+                }
+            }
+        }
+
+        for (int i = 0; i < B; i++)
+        {
+            if (bullets5[i].isactive)
+            {
+                Rectangle bullet5rec = { bullets5[i].x , bullets5[i].y ,bullet5.width ,bullet5.height };
+                Rectangle player_rec = { p.x , p.y ,player1.width ,player1.height };
+                if (CheckCollisionRecs(player_rec, bullet5rec))
+                {
+                    bullets5[i].isactive = false;
+                    health--;
+                }
+            }
+        }
+    }
+}
