@@ -1,0 +1,11 @@
+plane = LoadTexture("C:\\Users\\rania\\Downloads\\plane.png");
+plane.width = 200;
+plane.height = 100;
+
+ plane1.x = (screenWidth - plane1.width / 2) + 150;
+ plane1.y = 100;
+
+ 
+    plane1.x -= enemyspeed;
+    if (plane1.x + plane.width <= 0) plane1.x = screenWidth;
+DrawTexture(plane, plane1.x, plane1.y, WHITE);
