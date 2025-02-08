@@ -1,0 +1,919 @@
+#include <iostream>
+#include "raylib.h"
+
+using namespace std;
+
+struct player
+{
+    int x;
+    int y;
+    int width = 100;
+    int height = 100;
+    int velocity = 0;
+    bool isjump = false;
+};
+
+struct enemy_1
+{
+    int x;
+    int y;
+    int width = 100;
+    int height = 100;
+
+};
+
+struct bullet
+{
+    int x;
+    int y;
+    bool isactive = false;
+};
+
+const int screenHeight = 800;
+const int screenWidth = 1200;
+const int bulletframe = 100;
+const int B = 15;
+
+// Function declarations
+void InitializeGame();
+void UpdateGame();
+void DrawGame();
+void HandleInput();
+void HandleCollisions();
+void HandleBullets();
+void HandleEnemies();
+void HandleLevels();
+void Cleanup();
+
+// Function pointers
+void (*InitializeGamePtr)() = InitializeGame;
+void (*UpdateGamePtr)() = UpdateGame;
+void (*DrawGamePtr)() = DrawGame;
+void (*HandleInputPtr)() = HandleInput;
+void (*HandleCollisionsPtr)() = HandleCollisions;
+void (*HandleBulletsPtr)() = HandleBullets;
+void (*HandleEnemiesPtr)() = HandleEnemies;
+void (*HandleLevelsPtr)() = HandleLevels;
+void (*CleanupPtr)() = Cleanup;
+
+// Global variables
+Sound sound, sound1, gameover, winner;
+Font myfont;
+Texture2D bg1, bg2, logo, black, black2, penter, player1, player_up, enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8, bullet1, bullet2, bullet3, bullet4, bullet5, bomb, honey, level2, level3, level4, level5, win, over, plane;
+Vector2 bg1pos, bg2pos;
+player p;
+enemy_1 e1, e2, e3, e4, e5, e6, e7, e8, plane1;
+bullet bullets[B], bullets2[B], bullets3[B], bullets4[B], bullets5[B], bomb1[B], honeyb[B];
+int bgspeed = 1, enemyspeed = 1, bullet2timer = 0, score = 0, health = 100, level = 1, flag = 1;
+const int gravity = 1, jump = -20, ground = screenHeight - 150;
+
+void InitializeGame()
+{
+    InitWindow(screenWidth, screenHeight, "Metal Slug Game");
+    InitAudioDevice();
+
+    sound = LoadSound("C:\\Users\\rania\\Downloads\\metal_slug_sound.wav");
+    sound1 = LoadSound("C:\\Users\\rania\\Downloads\\gun2.wav");
+    gameover = LoadSound("C:\\Users\\rania\\Downloads\\game-over-160612.wav");
+    winner = LoadSound("C:\\Users\\rania\\Downloads\\club-music-loop-74178.wav");
+
+    myfont = LoadFont("C:\\Users\\rania\\Downloads\\KumarOne-Regular.ttf");
+
+    bg1 = LoadTexture("C:\\Users\\rania\\Downloads\\background1p.png");
+    bg1.width = screenWidth;
+    bg1.height = screenHeight;
+    bg1pos = { 0,0 };
+
+    bg2 = LoadTexture("C:\\Users\\rania\\Downloads\\backgrpundflip1.png");
+    bg2.width = screenWidth;
+    bg2.height = screenHeight;
+    bg2pos = { screenWidth,0 };
+
+    logo = LoadTexture("C:\\Users\\rania\\Downloads\\metallogo.png");
+    logo.width = screenWidth;
+    logo.height = screenHeight - 200;
+
+    black = LoadTexture("C:\\Users\\rania\\Downloads\\logoback1.png");
+    black.width = screenWidth;
+    black.height = screenHeight;
+
+    level2 = LoadTexture("C:\\Users\\rania\\Downloads\\levels.png");
+    level2.width = screenWidth;
+    level2.height = screenHeight;
+
+    level3 = LoadTexture("C:\\Users\\rania\\Downloads\\levels.png");
+    level3.width = screenWidth;
+    level3.height = screenHeight;
+
+    level4 = LoadTexture("C:\\Users\\rania\\Downloads\\levels.png");
+    level4.width = screenWidth;
+    level4.height = screenHeight;
+
+    level5 = LoadTexture("C:\\Users\\rania\\Downloads\\levels.png");
+    level5.width = screenWidth;
+    level5.height = screenHeight;
+
+
+    penter = LoadTexture("C:\\Users\\rania\\Downloads\\enter-removebg-preview.png");
+    penter.width = screenWidth;
+    penter.height = screenHeight;
+
+    player1 = LoadTexture("C:\\Users\\rania\\Downloads\\player.png");
+    player1.width = 150;
+    player1.height = 150;
+
+    player_up = LoadTexture("C:\\Users\\rania\\Downloads\\playergunup-removebg-preview.png");
+    player_up.width = 250;
+    player_up.height = 150;
+
+    enemy1 = LoadTexture("C:\\Users\\rania\\Downloads\\enemy1-removebg-preview.png");
+    enemy1.width = 200;
+    enemy1.height = 200;
+
+    enemy2 = LoadTexture("C:\\Users\\rania\\Downloads\\enemy2-removebg-preview.png");
+    enemy2.width = 150;
+    enemy2.height = 150;
+
+    enemy3 = LoadTexture("C:\\Users\\rania\\Downloads\\enemy3-removebg-preview.png");
+    enemy3.width = 150;
+    enemy3.height = 150;
+
+    enemy4 = LoadTexture("C:\\Users\\rania\\Downloads\\enemy4c-removebg-preview.png");
+    enemy4.width = 200;
+    enemy4.height = 200;
+
+    enemy5 = LoadTexture("C:\\Users\\rania\\Downloads\\enemy5-removebg-preview.png");
+    enemy5.width = 150;
+    enemy5.height = 150;
+
+    enemy6 = LoadTexture("C:\\Users\\rania\\Downloads\\enemy6.png");
+    enemy6.width = 100;
+    enemy6.height = 100;
+
+    enemy7 = LoadTexture("C:\\Users\\rania\\Downloads\\cactus-removebg-preview");
+    enemy7.width = 200;
+    enemy7.height = 200;
+
+    enemy8 = LoadTexture("C:\\Users\\rania\\Downloads\\enemy8.png");
+    enemy8.width = 100;
+    enemy8.height = 100;
+
+    bullet1 = LoadTexture("C:\\Users\\rania\\Downloads\\bullet1-removebg-preview.png");
+    bullet1.width = 80;
+    bullet1.height = 80;
+
+    bullet2 = LoadTexture("C:\\Users\\rania\\Downloads\\bullet2.png");
+    bullet2.width = 100;
+    bullet2.height = 100;
+
+    bullet3 = LoadTexture("C:\\Users\\rania\\Downloads\\bullet3flip.png");
+    bullet3.width = 50;
+    bullet3.height = 20;
+
+    bullet4 = LoadTexture("C:\\Users\\rania\\Downloads\\enemy4_arrow-removebg-preview.png");
+    bullet4.width = 80;
+    bullet4.height = 150;
+
+    bullet5 = LoadTexture("C:\\Users\\rania\\Downloads\\neon_bullet-removebg-preview.png");
+    bullet5.width = 50;
+    bullet5.height = 100;
+
+    bomb = LoadTexture("C:\\Users\\rania\\Downloads\\bomb.png");
+    bomb.width = 50;
+    bomb.height = 50;
+
+    honey = LoadTexture("C:\\Users\\rania\\Downloads\\honeydrop.png");
+    honey.width = 50;
+    honey.height = 50;
+
+    black2 = LoadTexture("C:\\Users\\rania\\Downloads\\black1.png");
+    black2.width = screenWidth;
+    black2.height = screenHeight;
+
+    win = LoadTexture("C:\\Users\\rania\\Downloads\\win3-removebg-preview.png");
+    win.width = screenWidth;
+    win.height = screenHeight;
+
+    over = LoadTexture("C:\\Users\\rania\\Downloads\\over1.png");
+    over.width = screenWidth;
+    over.height = screenHeight;
+
+    plane = LoadTexture("C:\\Users\\rania\\Downloads\\plane.png");
+    plane.width = 200;
+    plane.height = 100;
+
+    p.x = (player1.width / 2);
+    p.y = screenHeight - player1.height;
+
+    e1.x = (screenWidth - enemy1.width / 2) + 50;
+    e1.y = screenHeight - enemy1.height;
+
+    e2.x = e1.x + 400;
+    e2.y = screenHeight - enemy2.height;
+
+    e3.x = (screenWidth - enemy3.width / 2) + 150;
+    e3.y = 0;
+
+    e4.x = e2.x + 800;
+    e4.y = screenHeight - enemy4.height;
+
+    e5.x = e4.x + 1200;
+    e5.y = screenHeight - enemy4.height;
+
+    e6.x = (screenWidth - enemy6.width / 2);
+    e6.y = screenHeight / 2;
+
+    e7.x = (screenWidth - enemy7.width / 2);
+    e7.y = screenHeight / 2;
+
+    e8.x = (screenWidth - enemy8.width / 2);
+    e8.y = screenHeight / 2;
+
+    plane1.x = (screenWidth - plane1.width / 2) + 150;
+    plane1.y = 100;
+
+    SetTargetFPS(60);
+}
+
+void UpdateGame()
+{
+    bg1pos.x -= bgspeed;
+    bg2pos.x -= bgspeed;
+
+    if (bg1pos.x + bg1.width <= 0) bg1pos.x = screenWidth;
+    if (bg2pos.x + bg2.width <= 0) bg2pos.x = screenWidth;
+
+    e1.x -= enemyspeed;
+    e2.x -= enemyspeed;
+    e3.x -= enemyspeed;
+    e4.x -= enemyspeed;
+    e5.x -= enemyspeed;
+    e6.x -= enemyspeed;
+    e7.x -= enemyspeed;
+    e8.x -= enemyspeed;
+    plane1.x -= enemyspeed;
+
+    e6.y += 2;
+    e3.y += 2;
+
+    if (e3.y == (screenHeight - 300)) e3.y = 0;
+    if (e3.x + e3.width <= 0) e3.x = screenWidth;
+    if (e2.x + e2.width <= 0) e2.x = screenWidth;
+    if (e1.x + e1.width <= 0) e1.x = screenWidth;
+    if (e6.y == (screenHeight - 100)) e6.y = screenHeight / 2;
+    if (e6.x + e6.width <= 0) e6.x = screenWidth;
+    if (e7.x + e7.width <= 0) e7.x = screenWidth;
+    if (e8.x + e8.width <= 0) e8.x = screenWidth;
+    if (plane1.x + plane.width <= 0) plane1.x = screenWidth;
+
+
+    if (IsKeyDown(KEY_LEFT)) p.x -= 5;
+    if (IsKeyDown(KEY_RIGHT)) p.x += 5;
+    if (IsKeyPressed(KEY_UP)) p.y -= 5;
+
+    if (p.x < 0) p.x = 0;
+    if (p.x + player1.width > screenWidth) p.x = screenWidth - player1.width;
+
+    if (IsKeyPressed(KEY_UP))
+    {
+        p.velocity = jump;
+        p.isjump = true;
+    }
+
+    if (p.isjump)
+    {
+        p.velocity += gravity;
+        p.y += p.velocity;
+
+        if (p.y >= ground)
+        {
+            p.y = ground;
+            p.isjump = false;
+            p.velocity = 0;
+        }
+        if (p.y <= 0)
+        {
+            p.y += 10;
+        }
+    }
+
+}
+
+void DrawGame()
+{
+    BeginDrawing();
+    ClearBackground(RAYWHITE);
+
+    DrawTexture(bg1, bg1pos.x, bg1pos.y, WHITE);
+    DrawTexture(bg2, bg2pos.x, bg2pos.y, WHITE);
+    DrawTexture(player1, p.x, p.y, WHITE);
+    DrawTexture(enemy1, e1.x, e1.y, WHITE);
+    DrawTexture(enemy2, e2.x, e2.y, WHITE);
+    DrawTexture(plane, plane1.x, plane1.y, WHITE);
+
+
+    if (level >= 2)
+    {
+        DrawTexture(enemy3, e3.x, e3.y, WHITE);
+        DrawTexture(enemy4, e4.x, e4.y, WHITE);
+    }
+    if (level >= 3) DrawTexture(enemy5, e5.x, e5.y, WHITE);
+    if (level >= 4) DrawTexture(enemy6, e6.x, e6.y, WHITE);
+    if (level >= 5)
+    {
+        DrawTexture(enemy7, e7.x, e7.y, WHITE);
+        DrawTexture(enemy8, e8.x, e8.y, WHITE);
+    }
+
+    if (IsKeyDown(KEY_SPACE)) DrawTexture(player_up, p.x, p.y, WHITE);
+
+    for (int i = 0; i < B; i++)
+    {
+        if (bullets2[i].isactive) DrawTexture(bullet2, bullets2[i].x, bullets2[i].y, WHITE);
+        if (bullets3[i].isactive) DrawTexture(bullet3, bullets3[i].x, bullets3[i].y, WHITE);
+        if (bullets4[i].isactive) DrawTexture(bullet4, bullets4[i].x, bullets4[i].y, WHITE);
+        if (bomb1[i].isactive) DrawTexture(bomb, bomb1[i].x, bomb1[i].y, WHITE);
+        if (bullets[i].isactive) DrawTexture(bullet1, bullets[i].x, bullets[i].y, WHITE);
+        if (honeyb[i].isactive) DrawTexture(honey, honeyb[i].x, honeyb[i].y, WHITE);
+        if (bullets5[i].isactive) DrawTexture(bullet5, bullets5[i].x, bullets5[i].y, WHITE);
+
+    }
+
+    Vector2 text = { 0,0 }, text1 = { 200,0 }, text2 = { 500,0 };
+    DrawTextEx(myfont, TextFormat("Score : %d", score), text, 50, 2, DARKGRAY);
+    DrawTextEx(myfont, TextFormat("Health : %d", health), text1, 50, 2, DARKGREEN);
+
+    if (level == 2)
+    {
+        DrawTextEx(myfont, "Level 2", text2, 50, 2, RED);
+        DrawTexture(level2, 0, 0, WHITE);
+    }
+    if (level == 3)
+    {
+        DrawTextEx(myfont, "Level 3", text2, 50, 2, RED);
+        DrawTexture(level3, 0, 0, WHITE);
+    }
+    if (level == 4)
+    {
+        DrawTextEx(myfont, "Level 4", text2, 50, 2, RED);
+        DrawTexture(level4, 0, 0, WHITE);
+    }
+    if (level == 5)
+    {
+        DrawTextEx(myfont, "Level 5", text2, 50, 2, RED);
+        DrawTexture(level5, 0, 0, WHITE);
+    }
+
+    if (score >= 100)
+    {
+        DrawTexture(black2, 0, 0, WHITE);
+        DrawTexture(win, 0, 0, WHITE);
+    }
+    if (health <= 0)
+    {
+        DrawTexture(over, 0, 0, WHITE);
+    }
+
+    DrawTexture(black, 0, 0, WHITE);
+    DrawTexture(penter, 0, 300, WHITE);
+    DrawTexture(logo, 0, 0, WHITE);
+
+    EndDrawing();
+}
+
+void HandleInput()
+{
+    if (IsKeyPressed(KEY_ENTER))
+    {
+        logo.height = 0;
+        logo.width = 0;
+        penter.height = 0;
+        penter.width = 0;
+        black.height = 0;
+        black.width = 0;
+        PlaySound(sound);
+
+        if (level == 2)
+        {
+            level2.height = 0;
+            level2.width = 0;
+            enemyspeed = 2;
+        }
+        if (level == 3)
+        {
+            level3.height = 0;
+            level3.width = 0;
+            enemyspeed = 3;
+        }
+        if (level == 4)
+        {
+            level4.height = 0;
+            level4.width = 0;
+            enemyspeed = 4;
+        }
+        if (level == 5)
+        {
+            level5.height = 0;
+            level5.width = 0;
+            enemyspeed = 5;
+        }
+
+    }
+    if (IsKeyPressed(KEY_SPACE)) PlaySound(sound1);
+
+    if (IsKeyPressed(KEY_RIGHT_SHIFT))
+    {
+        if (health <= 0)
+        {
+            PlaySound(gameover);
+        }
+        if (score >= 100)
+        {
+            PlaySound(winner);
+        }
+
+    }
+
+}
+
+void HandleCollisions()
+{
+    Rectangle player_rec = { p.x , p.y ,player1.width - 20 ,player1.height };
+    Rectangle enemyrec = { e1.x , e1.y ,enemy1.width ,enemy1.height };
+    Rectangle enemy2rec = { e2.x , e2.y ,enemy2.width ,enemy2.height };
+    Rectangle enemy3rec = { e3.x , e3.y ,enemy3.width ,enemy3.height };
+    Rectangle enemy4rec = { e4.x , e4.y ,enemy4.width ,enemy4.height };
+    Rectangle enemy5rec = { e5.x , e5.y ,enemy5.width ,enemy5.height };
+    Rectangle enemy6rec = { e6.x , e6.y ,enemy6.width ,enemy6.height };
+    Rectangle enemy7rec = { e7.x , e7.y ,enemy7.width ,enemy7.height };
+    Rectangle enemy8rec = { e8.x , e8.y ,enemy8.width ,enemy8.height };
+
+    if (CheckCollisionRecs(player_rec, enemyrec))
+    {
+        health--;
+        e1.x = (screenWidth - enemy1.width / 2);
+    }
+    if (CheckCollisionRecs(player_rec, enemy2rec))
+    {
+        health--;
+        e2.x = (screenWidth - enemy2.width / 2) + 10;
+    }
+    if (CheckCollisionRecs(player_rec, enemy4rec))
+    {
+        health--;
+        e4.x = (screenWidth - enemy4.width / 2) + 10;
+    }
+    if (CheckCollisionRecs(player_rec, enemy5rec))
+    {
+        health--;
+        e5.x = (screenWidth - enemy5.width / 2) + 10;
+    }
+    if (CheckCollisionRecs(player_rec, enemy6rec))
+    {
+        health--;
+        e6.x = (screenWidth - enemy6.width / 2) + 10;
+    }
+    if (CheckCollisionRecs(player_rec, enemy7rec))
+    {
+        health--;
+
+    }
+    if (CheckCollisionRecs(player_rec, enemy8rec))
+    {
+        health--;
+        e8.x = (screenWidth - enemy8.width / 2) + 10;
+    }
+}
+
+void HandleBullets()
+{
+    if (IsKeyPressed(KEY_SPACE))
+    {
+        for (int i = 0; i < B; i++)
+        {
+            if (!bullets[i].isactive)
+            {
+                bullets[i].x = p.x + player1.width / 2;
+                bullets[i].y = p.y + 40;
+                bullets[i].isactive = true;
+                break;
+            }
+        }
+    }
+
+    for (int i = 0; i < B; i++)
+    {
+        if (bullets[i].isactive)
+        {
+            bullets[i].x += 10;
+            if (bullets[i].x > screenWidth) bullets[i].isactive = false;
+        }
+    }
+
+    for (int i = 0; i < B; i++)
+    {
+        if (bullets[i].isactive)
+        {
+            Rectangle bulletrec = { bullets[i].x , bullets[i].y ,bullet1.width ,bullet1.height };
+            Rectangle enemyrec = { e1.x , e1.y ,enemy1.width ,enemy1.height };
+            Rectangle enemy2rec = { e2.x , e2.y ,enemy2.width ,enemy2.height };
+            Rectangle enemy3rec = { e3.x , e3.y ,enemy3.width ,enemy3.height };
+            Rectangle enemy4rec = { e4.x , e4.y ,enemy4.width ,enemy4.height };
+            Rectangle enemy5rec = { e5.x , e5.y ,enemy5.width ,enemy5.height };
+            Rectangle enemy6rec = { e6.x , e6.y ,enemy6.width ,enemy6.height };
+            Rectangle enemy7rec = { e7.x , e7.y ,enemy7.width ,enemy7.height };
+            Rectangle enemy8rec = { e8.x , e8.y ,enemy8.width ,enemy8.height };
+
+            if (CheckCollisionRecs(enemyrec, bulletrec))
+            {
+                bullets[i].isactive = false;
+                e1.x = screenWidth;
+                score++;
+            }
+            if (CheckCollisionRecs(enemy2rec, bulletrec))
+            {
+                bullets[i].isactive = false;
+                e2.x = screenWidth + 400;
+                score++;
+            }
+            if (CheckCollisionRecs(enemy3rec, bulletrec))
+            {
+                bullets[i].isactive = false;
+                e3.x = screenWidth;
+                score++;
+            }
+            if (level >= 2 && CheckCollisionRecs(enemy4rec, bulletrec))
+            {
+                bullets[i].isactive = false;
+                e4.x = screenWidth + 800;
+                score++;
+            }
+            if (level >= 3 && CheckCollisionRecs(enemy5rec, bulletrec))
+            {
+                bullets[i].isactive = false;
+                e5.x = screenWidth + 1200;
+                score++;
+            }
+            if (level >= 4 && CheckCollisionRecs(enemy6rec, bulletrec))
+            {
+                bullets[i].isactive = false;
+                e6.x = screenWidth;
+                score++;
+            }
+            if (level >= 5 && CheckCollisionRecs(enemy8rec, bulletrec))
+            {
+                bullets[i].isactive = false;
+                e8.x = screenWidth + 1000;
+                score++;
+            }
+
+        }
+
+    }
+
+}
+
+void HandleEnemies()
+{
+    if (e1.x < screenWidth - enemy1.width)
+    {
+        bullet2timer++;
+        if (bullet2timer >= bulletframe)
+        {
+            for (int i = 0; i < B; i++)
+            {
+                if (!bullets2[i].isactive)
+                {
+                    bullets2[i].x = e1.x;
+                    bullets2[i].y = e1.y + 60;
+                    bullets2[i].isactive = true;
+                    bullet2timer = 0;
+                    break;
+                }
+            }
+        }
+    }
+
+    for (int i = 0; i < B; i++)
+    {
+        if (bullets2[i].isactive)
+        {
+            bullets2[i].x -= 10;
+            if (bullets2[i].x < 0) bullets2[i].isactive = false;
+        }
+    }
+
+    for (int i = 0; i < B; i++)
+    {
+        if (bullets2[i].isactive)
+        {
+            Rectangle bullet2rec = { bullets2[i].x , bullets2[i].y ,bullet2.width ,bullet2.height };
+            Rectangle player_rec = { p.x , p.y ,player1.width ,player1.height };
+            if (CheckCollisionRecs(player_rec, bullet2rec))
+            {
+                bullets2[i].isactive = false;
+                health--;
+            }
+        }
+    }
+
+    if (e2.x < screenWidth - enemy2.width)
+    {
+        bullet2timer++;
+        if (bullet2timer >= bulletframe)
+        {
+            for (int i = 0; i < B; i++)
+            {
+                if (!bullets3[i].isactive)
+                {
+                    bullets3[i].x = e2.x;
+                    bullets3[i].y = e2.y + 40;
+                    bullets3[i].isactive = true;
+                    bullet2timer = 0;
+                    break;
+                }
+            }
+        }
+    }
+
+    for (int i = 0; i < B; i++)
+    {
+        if (bullets3[i].isactive)
+        {
+            bullets3[i].x -= 10;
+            if (bullets3[i].x < 0) bullets3[i].isactive = false;
+        }
+    }
+
+    for (int i = 0; i < B; i++)
+    {
+        if (bullets3[i].isactive)
+        {
+            Rectangle bullet3rec = { bullets3[i].x , bullets3[i].y ,bullet3.width ,bullet3.height };
+            Rectangle player_rec = { p.x , p.y ,player1.width ,player1.height };
+            if (CheckCollisionRecs(player_rec, bullet3rec))
+            {
+                bullets3[i].isactive = false;
+                health--;
+            }
+        }
+    }
+
+    if (level >= 2)
+    {
+        if (e4.x < screenWidth - enemy4.width)
+        {
+            bullet2timer++;
+            if (bullet2timer >= bulletframe)
+            {
+                for (int i = 0; i < B; i++)
+                {
+                    if (!bullets4[i].isactive)
+                    {
+                        bullets4[i].x = e4.x;
+                        bullets4[i].y = e4.y + 20;
+                        bullets4[i].isactive = true;
+                        bullet2timer = 0;
+                        break;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < B; i++)
+        {
+            if (bullets4[i].isactive)
+            {
+                bullets4[i].x -= 10;
+                if (bullets4[i].x < 0) bullets4[i].isactive = false;
+            }
+        }
+
+
+        for (int i = 0; i < B; i++)
+        {
+            if (bullets4[i].isactive)
+            {
+                Rectangle bullet4rec = { bullets4[i].x , bullets4[i].y ,bullet4.width ,bullet4.height };
+                Rectangle player_rec = { p.x , p.y ,player1.width ,player1.height };
+                if (CheckCollisionRecs(player_rec, bullet4rec)) { bullets4[i].isactive = false; health--; }
+            }
+        }
+        if (e3.x < screenWidth - enemy3.width)
+        {
+            bullet2timer++;
+            if (bullet2timer >= bulletframe)
+            {
+                for (int i = 0; i < B; i++)
+                {
+                    if (!bomb1[i].isactive)
+                    {
+                        bomb1[i].x = e3.x;
+                        bomb1[i].y = e3.y + 40;
+                        bomb1[i].isactive = true;
+                        bullet2timer = 0;
+                        break;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < B; i++)
+        {
+            if (bomb1[i].isactive)
+            {
+                bomb1[i].y += 10;
+                if (bomb1[i].y < 0) bomb1[i].isactive = false;
+            }
+        }
+
+        for (int i = 0; i < B; i++)
+        {
+            if (bomb1[i].isactive)
+            {
+                Rectangle bombrec = { bomb1[i].x , bomb1[i].y ,bomb.width ,bomb.height };
+                Rectangle player_rec = { p.x , p.y ,player1.width ,player1.height };
+                if (CheckCollisionRecs(player_rec, bombrec))
+                {
+                    bomb1[i].isactive = false;
+                    health--;
+                }
+            }
+        }
+
+    }
+
+    if (level >= 4)
+    {
+        if (e6.x < screenWidth - enemy6.width)
+        {
+            bullet2timer++;
+            if (bullet2timer >= bulletframe)
+            {
+                for (int i = 0; i < B; i++)
+                {
+                    if (!honeyb[i].isactive)
+                    {
+                        honeyb[i].x = e6.x;
+                        honeyb[i].y = e6.y + 40;
+                        honeyb[i].isactive = true;
+                        bullet2timer = 0;
+                        break;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < B; i++)
+        {
+            if (honeyb[i].isactive)
+            {
+                honeyb[i].y += 5;
+                if (honeyb[i].y < 0)
+                {
+                    honeyb[i].isactive = false;
+                }
+            }
+        }
+
+        for (int i = 0; i < B; i++)
+        {
+            if (honeyb[i].isactive)
+            {
+                Rectangle honeyrec = { honeyb[i].x , honeyb[i].y ,honey.width ,honey.height };
+                Rectangle player_rec = { p.x , p.y ,player1.width ,player1.height };
+                if (CheckCollisionRecs(player_rec, honeyrec))
+                {
+                    honeyb[i].isactive = false;
+                    health--;
+                }
+            }
+        }
+    }
+
+    if (level == 5)
+    {
+        if (e8.x < screenWidth - enemy8.width)
+        {
+            bullet2timer++;
+            if (bullet2timer >= bulletframe)
+            {
+                for (int i = 0; i < B; i++)
+                {
+                    if (!bullets5[i].isactive)
+                    {
+                        bullets5[i].x = e8.x;
+                        bullets5[i].y = e8.y + 40;
+                        bullets5[i].isactive = true;
+                        bullet2timer = 0;
+                        break;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < B; i++)
+        {
+            if (bullets5[i].isactive)
+            {
+                bullets5[i].y += 5;
+                if (bullets5[i].y < 0)
+                {
+                    bullets5[i].isactive = false;
+                }
+            }
+        }
+
+        for (int i = 0; i < B; i++)
+        {
+            if (bullets5[i].isactive)
+            {
+                Rectangle bullet5rec = { bullets5[i].x , bullets5[i].y ,bullet5.width ,bullet5.height };
+                Rectangle player_rec = { p.x , p.y ,player1.width ,player1.height };
+                if (CheckCollisionRecs(player_rec, bullet5rec))
+                {
+                    bullets5[i].isactive = false;
+                    health--;
+                }
+            }
+        }
+    }
+}
+
+void HandleLevels()
+{
+    if (score == 20 && flag == 1)
+    {
+        level = 2;
+        score = 0;
+        flag = 2;
+    }
+    else if (score > 40 && score < 60 && flag == 2)
+    {
+        level = 3;
+        score = 0;
+        flag = 3;
+    }
+    else if (score >= 60 && score < 80 && flag == 3)
+    {
+        level = 4;
+        score = 0;
+        flag = 4;
+    }
+    else if (score >= 80 && score < 100 && flag == 4)
+    {
+        level = 5;
+        score = 0;
+        flag = 5;
+    }
+}
+
+void Cleanup()
+{
+    UnloadTexture(bg1);
+    UnloadTexture(bg2);
+    UnloadTexture(logo);
+    UnloadTexture(black);
+    UnloadTexture(player1);
+    UnloadTexture(enemy1);
+    UnloadTexture(enemy2);
+    UnloadTexture(enemy3);
+    UnloadTexture(enemy4);
+    UnloadTexture(enemy5);
+    UnloadTexture(enemy6);
+    UnloadTexture(enemy7);
+    UnloadTexture(enemy8);
+    UnloadTexture(bullet1);
+    UnloadTexture(bullet2);
+    UnloadTexture(bullet3);
+
+    UnloadSound(sound);
+    UnloadSound(sound1);
+    UnloadSound(winner);
+    UnloadSound(gameover);
+
+
+
+    CloseAudioDevice();
+    CloseWindow();
+}
+
+int main()
+{
+    InitializeGamePtr();
+
+    while (!WindowShouldClose())
+    {
+        HandleInputPtr();
+        UpdateGamePtr();
+        HandleCollisionsPtr();
+        HandleBulletsPtr();
+        HandleEnemiesPtr();
+        HandleLevelsPtr();
+        DrawGamePtr();
+    }
+
+    CleanupPtr();
+
+    return 0;
+}
