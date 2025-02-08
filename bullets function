@@ -1,0 +1,87 @@
+void HandleBullets()
+{
+    if (IsKeyPressed(KEY_SPACE))
+    {
+        for (int i = 0; i < B; i++)
+        {
+            if (!bullets[i].isactive)
+            {
+                bullets[i].x = p.x + player1.width / 2;
+                bullets[i].y = p.y + 40;
+                bullets[i].isactive = true;
+                break;
+            }
+        }
+    }
+
+    for (int i = 0; i < B; i++)
+    {
+        if (bullets[i].isactive)
+        {
+            bullets[i].x += 10;
+            if (bullets[i].x > screenWidth) bullets[i].isactive = false;
+        }
+    }
+
+    for (int i = 0; i < B; i++)
+    {
+        if (bullets[i].isactive)
+        {
+            Rectangle bulletrec = { bullets[i].x , bullets[i].y ,bullet1.width ,bullet1.height };
+            Rectangle enemyrec = { e1.x , e1.y ,enemy1.width ,enemy1.height };
+            Rectangle enemy2rec = { e2.x , e2.y ,enemy2.width ,enemy2.height };
+            Rectangle enemy3rec = { e3.x , e3.y ,enemy3.width ,enemy3.height };
+            Rectangle enemy4rec = { e4.x , e4.y ,enemy4.width ,enemy4.height };
+            Rectangle enemy5rec = { e5.x , e5.y ,enemy5.width ,enemy5.height };
+            Rectangle enemy6rec = { e6.x , e6.y ,enemy6.width ,enemy6.height };
+            Rectangle enemy7rec = { e7.x , e7.y ,enemy7.width ,enemy7.height };
+            Rectangle enemy8rec = { e8.x , e8.y ,enemy8.width ,enemy8.height };
+
+            if (CheckCollisionRecs(enemyrec, bulletrec)) 
+            { 
+                bullets[i].isactive = false; 
+                e1.x = screenWidth;
+                score++; 
+            }
+            if (CheckCollisionRecs(enemy2rec, bulletrec)) 
+            { 
+                bullets[i].isactive = false;
+                e2.x = screenWidth + 400;
+                score++;
+            }
+            if (CheckCollisionRecs(enemy3rec, bulletrec))
+            { 
+                bullets[i].isactive = false;
+                e3.x = screenWidth;
+                score++;
+            }
+            if (level >= 2 && CheckCollisionRecs(enemy4rec, bulletrec))
+            {
+                bullets[i].isactive = false; 
+                e4.x = screenWidth + 800;
+                score++;
+            }
+            if (level >= 3 && CheckCollisionRecs(enemy5rec, bulletrec)) 
+            { 
+                bullets[i].isactive = false;
+                e5.x = screenWidth + 1200; 
+                score++;
+            }
+            if (level >= 4 && CheckCollisionRecs(enemy6rec, bulletrec))
+            {
+                bullets[i].isactive = false;
+                e6.x = screenWidth;
+                score++;
+            }
+            if (level >= 5 && CheckCollisionRecs(enemy8rec, bulletrec))
+            {
+                bullets[i].isactive = false;
+                e8.x = screenWidth +1000;
+                score++;
+            }
+
+        }
+        
+    }
+    
+}
