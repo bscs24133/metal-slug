@@ -1,0 +1,4 @@
+Font myfont;
+ Vector2 text = { 0,0 }, text1 = { 200,0 }, text2 = { 500,0 };
+ DrawTextEx(myfont, TextFormat("Score : %d", score), text, 50, 2, DARKGRAY);
+ DrawTextEx(myfont, TextFormat("Health : %d", health), text1, 50, 2, DARKGREEN);
