@@ -1,0 +1,48 @@
+void HandleCollisions()
+{
+    Rectangle player_rec = { p.x , p.y ,player1.width - 20 ,player1.height };
+    Rectangle enemyrec = { e1.x , e1.y ,enemy1.width ,enemy1.height };
+    Rectangle enemy2rec = { e2.x , e2.y ,enemy2.width ,enemy2.height };
+    Rectangle enemy3rec = { e3.x , e3.y ,enemy3.width ,enemy3.height };
+    Rectangle enemy4rec = { e4.x , e4.y ,enemy4.width ,enemy4.height };
+    Rectangle enemy5rec = { e5.x , e5.y ,enemy5.width ,enemy5.height };
+    Rectangle enemy6rec = { e6.x , e6.y ,enemy6.width ,enemy6.height };
+    Rectangle enemy7rec = { e7.x , e7.y ,enemy7.width ,enemy7.height };
+    Rectangle enemy8rec = { e8.x , e8.y ,enemy8.width ,enemy8.height };
+
+    if (CheckCollisionRecs(player_rec, enemyrec))
+    { 
+        health--; 
+        e1.x = (screenWidth - enemy1.width / 2); 
+    }
+    if (CheckCollisionRecs(player_rec, enemy2rec)) 
+    {
+        health--; 
+        e2.x = (screenWidth - enemy2.width / 2) + 10;
+    }
+    if (CheckCollisionRecs(player_rec, enemy4rec))
+    {
+        health--;
+        e4.x = (screenWidth - enemy4.width / 2) + 10;
+    }
+    if (CheckCollisionRecs(player_rec, enemy5rec))
+    {
+        health--;
+        e5.x = (screenWidth - enemy5.width / 2) + 10;
+    }
+    if (CheckCollisionRecs(player_rec, enemy6rec))
+    {
+        health--;
+        e6.x = (screenWidth - enemy6.width / 2) + 10;
+    }
+    if (CheckCollisionRecs(player_rec, enemy7rec))
+    {
+        health--;
+       
+    }
+    if (CheckCollisionRecs(player_rec, enemy8rec))
+    {
+        health--;
+        e8.x = (screenWidth - enemy8.width / 2) + 10;
+    }
+}
