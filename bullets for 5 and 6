@@ -1,0 +1,47 @@
+ if (level >= 4)
+ {
+     if (e6.x < screenWidth - enemy6.width)
+     {
+         bullet2timer++;
+         if (bullet2timer >= bulletframe)
+         {
+             for (int i = 0; i < B; i++)
+             {
+                 if (!honeyb[i].isactive)
+                 {
+                     honeyb[i].x = e6.x;
+                     honeyb[i].y = e6.y + 40;
+                     honeyb[i].isactive = true;
+                     bullet2timer = 0;
+                     break;
+                 }
+             }
+         }
+     }
+
+     for (int i = 0; i < B; i++)
+     {
+         if (honeyb[i].isactive)
+         {
+             honeyb[i].y += 5;
+             if (honeyb[i].y < 0)
+             {
+                 honeyb[i].isactive = false;
+             }
+         }
+     }
+
+     for (int i = 0; i < B; i++)
+     {
+         if (honeyb[i].isactive)
+         {
+             Rectangle honeyrec = { honeyb[i].x , honeyb[i].y ,honey.width ,honey.height };
+             Rectangle player_rec = { p.x , p.y ,player1.width ,player1.height };
+             if (CheckCollisionRecs(player_rec, honeyrec))
+             {
+                 honeyb[i].isactive = false;
+                 health--;
+             }
+         }
+     }
+ }
