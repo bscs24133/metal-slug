@@ -47,6 +47,8 @@ int main()
 
 	Texture2D player1 = LoadTexture("PLAYER 1.png");
 	Texture2D enemy1 = LoadTexture("enemy 1.png");
+    Texture2D enemy2 = LoadTexture("C:\\Users\\rania\\Downloads\\enemy2-removebg-preview.png");
+	
 
 	Texture2D bullet1 = LoadTexture("bullet.png");
 
@@ -55,6 +57,9 @@ int main()
 
 	enemy1.width = 200;
 	enemy1.height = 200;
+
+	enemy2.width = 150;
+	enemy2.height = 150;
 
 	player1.width = 200;
 	player1.height = 200;
@@ -70,6 +75,10 @@ int main()
 	enemy_1 e1;
 	e1.x = (screenWidth - enemy1.width / 2);
 	e1.y = screenHeight - enemy1.height;
+
+	enemy_1 e2;
+	e2.x = (screenWidth - enemy2.width / 2);
+	e2.y = screenHeight - enemy2.height;
 
 	int score = 0;
 	int bgspeed = 2;
@@ -93,12 +102,17 @@ int main()
 		}
 
 		e1.x -= enemyspeed;
-		e1.x -= enemyspeed;
+		e2.x -= enemyspeed;
 
 
 		if (e1.x +e1.width <= 0)
 		{
 			e1.x = screenWidth;
+		}
+
+		if (e2.x +e2.width <= 0)
+		{
+			e2.x = screenWidth;
 		}
 		
 		if (IsKeyDown(KEY_LEFT))
@@ -127,7 +141,7 @@ int main()
 		}
 
 		Rectangle enemyrec = { e1.x , e1.y ,enemy1.width ,enemy1.height };
-
+		Rectangle enemy2rec = { e2.x , e2.y ,enemy2.width ,enemy2.height };
 		Rectangle bulletrec = { b.x , b.y ,bullet1.width ,bullet1.height };
 		Rectangle playerrec = { p.x , p.y , player1.width , player1.height };
 
@@ -143,10 +157,12 @@ int main()
 			e1.x = screenWidth;
 			b.x = (player1.width + bullet1.width / 2);
 			score--;
-			/*if (score < 0)
-			{
-
-			}*/
+			
+		}
+		if (CheckCollisionRecs(player_rec, enemy2rec)) 
+		{
+			health--; 
+			e2.x = (screenWidth - enemy2.width / 2) + 10;
 		}
 
 		BeginDrawing();
@@ -156,6 +172,8 @@ int main()
 		DrawTexture(bg2, bg2pos.x, bg2pos.y, WHITE);
 		DrawTexture(player1, p.x, p.y, WHITE);
 		DrawTexture(enemy1, e1.x, e1.y, WHITE);
+		DrawTexture(enemy2, e2.x, e2.y, WHITE);
+		
 		if (IsKeyDown(KEY_SPACE))
 		{
 			DrawTexture(bullet1, b.x, b.y, WHITE);
