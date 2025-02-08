@@ -1,0 +1,45 @@
+
+    enemy8 = LoadTexture("C:\\Users\\rania\\Downloads\\enemy8.png");
+    enemy8.width = 100;
+    enemy8.height = 100;
+
+ e8.x = (screenWidth - enemy8.width / 2);
+ e8.y = screenHeight / 2;
+
+ if (e8.x + e8.width <= 0) e8.x = screenWidth;
+
+  if (level >= 5)
+  {
+      DrawTexture(enemy7, e7.x, e7.y, WHITE);
+      DrawTexture(enemy8, e8.x, e8.y, WHITE);
+  }
+
+ if (level == 5)
+ {
+     DrawTextEx(myfont, "Level 5", text2, 50, 2, RED);
+     DrawTexture(level5, 0, 0, WHITE);
+ }
+
+ if (level == 5)
+ {
+     level5.height = 0;
+     level5.width = 0;
+     enemyspeed = 5;
+ }
+
+ Rectangle enemy8rec = { e8.x , e8.y ,enemy8.width ,enemy8.height };
+
+ if (CheckCollisionRecs(player_rec, enemy8rec))
+ {
+     health--;
+     e8.x = (screenWidth - enemy8.width / 2) + 10;
+ }
+
+ if (level >= 5 && CheckCollisionRecs(enemy8rec, bulletrec))
+ {
+     bullets[i].isactive = false;
+     e8.x = screenWidth + 1000;
+     score++;
+ }
+
+  UnloadTexture(enemy8);
