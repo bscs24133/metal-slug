@@ -1,0 +1,82 @@
+
+void DrawGame()
+{
+    BeginDrawing();
+    ClearBackground(RAYWHITE);
+
+    DrawTexture(bg1, bg1pos.x, bg1pos.y, WHITE);
+    DrawTexture(bg2, bg2pos.x, bg2pos.y, WHITE);
+    DrawTexture(player1, p.x, p.y, WHITE);
+    DrawTexture(enemy1, e1.x, e1.y, WHITE);
+    DrawTexture(enemy2, e2.x, e2.y, WHITE);
+    DrawTexture(plane, plane1.x, plane1.y, WHITE);
+
+
+    if (level >= 2)
+    {
+        DrawTexture(enemy3, e3.x, e3.y, WHITE);
+        DrawTexture(enemy4, e4.x, e4.y, WHITE);
+    }
+    if (level >= 3) DrawTexture(enemy5, e5.x, e5.y, WHITE);
+    if (level >= 4) DrawTexture(enemy6, e6.x, e6.y, WHITE);
+    if (level >= 5)
+    {
+        DrawTexture(enemy7, e7.x, e7.y, WHITE);
+        DrawTexture(enemy8, e8.x, e8.y, WHITE);
+    }
+
+    if (IsKeyDown(KEY_SPACE)) DrawTexture(player_up, p.x, p.y, WHITE);
+
+    for (int i = 0; i < B; i++)
+    {
+        if (bullets2[i].isactive) DrawTexture(bullet2, bullets2[i].x, bullets2[i].y, WHITE);
+        if (bullets3[i].isactive) DrawTexture(bullet3, bullets3[i].x, bullets3[i].y, WHITE);
+        if (bullets4[i].isactive) DrawTexture(bullet4, bullets4[i].x, bullets4[i].y, WHITE);
+        if (bomb1[i].isactive) DrawTexture(bomb, bomb1[i].x, bomb1[i].y, WHITE);
+        if (bullets[i].isactive) DrawTexture(bullet1, bullets[i].x, bullets[i].y, WHITE);
+        if (honeyb[i].isactive) DrawTexture(honey, honeyb[i].x, honeyb[i].y, WHITE);
+        if (bullets5[i].isactive) DrawTexture(bullet5, bullets5[i].x, bullets5[i].y, WHITE);
+
+    }
+
+    Vector2 text = { 0,0 }, text1 = { 200,0 }, text2 = { 500,0 };
+    DrawTextEx(myfont, TextFormat("Score : %d", score), text, 50, 2, DARKGRAY);
+    DrawTextEx(myfont, TextFormat("Health : %d", health), text1, 50, 2, DARKGREEN);
+
+    if (level == 2)
+    {
+        DrawTextEx(myfont, "Level 2", text2, 50, 2, RED);
+        DrawTexture(level2, 0, 0, WHITE);
+    }
+    if (level == 3)
+    {
+        DrawTextEx(myfont, "Level 3", text2, 50, 2, RED);
+        DrawTexture(level3, 0, 0, WHITE);
+    }
+    if (level == 4)
+    {
+        DrawTextEx(myfont, "Level 4", text2, 50, 2, RED);
+        DrawTexture(level4, 0, 0, WHITE);
+    }
+    if (level == 5)
+    {
+        DrawTextEx(myfont, "Level 5", text2, 50, 2, RED);
+        DrawTexture(level5, 0, 0, WHITE);
+    }
+
+    if (score >= 100)
+    {
+        DrawTexture(black2, 0, 0, WHITE);
+        DrawTexture(win, 0, 0, WHITE);
+    }
+    if (health <= 0)
+    {
+        DrawTexture(over, 0, 0, WHITE);
+    }
+
+    DrawTexture(black, 0, 0, WHITE);
+    DrawTexture(penter, 0, 300, WHITE);
+    DrawTexture(logo, 0, 0, WHITE);
+
+    EndDrawing();
+}
