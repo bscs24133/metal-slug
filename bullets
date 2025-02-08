@@ -1,0 +1,54 @@
+//bullet1
+
+struct bullet
+{
+    int x;
+    int y;
+    bool isactive = false;
+};
+
+const int bulletframe = 100;
+const int B = 15;
+
+bullet bullets[B]
+
+
+    bullet1 = LoadTexture("bullet.png");
+    bullet1.width = 80;
+    bullet1.height = 80;
+
+    for (int i = 0; i < B; i++)
+    {
+          if (bullets[i].isactive) DrawTexture(bullet1, bullets[i].x, bullets[i].y, WHITE);
+    }
+
+   if (IsKeyPressed(KEY_SPACE))
+   {
+       for (int i = 0; i < B; i++)
+       {
+           if (!bullets[i].isactive)
+           {
+               bullets[i].x = p.x + player1.width / 2;
+               bullets[i].y = p.y + 40;
+               bullets[i].isactive = true;
+               break;
+           }
+       }
+   }
+
+   for (int i = 0; i < B; i++)
+   {
+       if (bullets[i].isactive)
+       {
+           bullets[i].x += 10;
+           if (bullets[i].x > screenWidth) bullets[i].isactive = false;
+       }
+   }
+
+ for (int i = 0; i < B; i++)
+ {
+     if (bullets[i].isactive)
+     {
+          Rectangle bulletrec = { bullets[i].x , bullets[i].y ,bullet1.width ,bullet1.height };
+     }
+  }
