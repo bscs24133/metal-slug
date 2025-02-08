@@ -1,0 +1,54 @@
+void HandleInput()
+{
+    if (IsKeyPressed(KEY_ENTER))
+    {
+        logo.height = 0;
+        logo.width = 0;
+        penter.height = 0;
+        penter.width = 0;
+        black.height = 0;
+        black.width = 0;
+        PlaySound(sound);
+
+        if (level == 2)
+        {
+            level2.height = 0;
+            level2.width = 0;
+            enemyspeed = 2;
+        }
+        if (level == 3)
+        {
+            level3.height = 0;
+            level3.width = 0; 
+            enemyspeed = 3;
+        }
+        if (level == 4)
+        {
+            level4.height = 0;
+            level4.width = 0;
+            enemyspeed = 4;
+        }
+        if (level == 5)
+        {
+            level5.height = 0;
+            level5.width = 0;
+            enemyspeed = 5;
+        }
+
+    }
+    if (IsKeyPressed(KEY_SPACE)) PlaySound(sound1);
+
+    if (IsKeyPressed(KEY_RIGHT_SHIFT))
+    {
+        if (health <= 0)
+        {
+            PlaySound(gameover);
+        }
+        if (score >= 100)
+        {
+            PlaySound(winner);
+        }
+
+    }
+   
+}
