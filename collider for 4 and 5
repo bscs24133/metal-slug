@@ -1,0 +1,15 @@
+ Rectangle enemy4rec = { e4.x , e4.y ,enemy4.width ,enemy4.height };
+ Rectangle enemy5rec = { e5.x , e5.y ,enemy5.width ,enemy5.height };
+
+ if (level >= 2 && CheckCollisionRecs(enemy4rec, bulletrec))
+{
+    bullets[i].isactive = false; 
+    e4.x = screenWidth + 800;
+    score++;
+}
+if (level >= 3 && CheckCollisionRecs(enemy5rec, bulletrec)) 
+{ 
+    bullets[i].isactive = false;
+    e5.x = screenWidth + 1200; 
+    score++;
+}
