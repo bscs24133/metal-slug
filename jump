@@ -5,6 +5,15 @@
 		int gravity = 1;
 		int ground = screenHeight - player1.height;
 
+        if (p.x < 0)
+		{
+			p.x = 0;
+		}
+		if (p.x + player1.width > screenWidth)
+		{
+			p.x = screenWidth - player1.width;
+		}
+
 		if (IsKeyPressed(KEY_UP))
 		{
 			p.velocity = isjump;
@@ -26,11 +35,4 @@
 		
 		
 
-		if (p.x < 0)
-		{
-			p.x = 0;
-		}
-		if (p.x + player1.width > screenWidth)
-		{
-			p.x = screenWidth - player1.width;
-		}
+		
